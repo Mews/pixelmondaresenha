@@ -53,7 +53,7 @@ async def loop():
         new_log_content = log_content.replace(prev_log_content, "")
 
         if new_log_content:
-            list(map(logging.info, ["\nNew log messages:"]+new_log_content.split("\n")[:-1]))
+            list(map(lambda log_line:logging.info(f"Log message: {log_line}"), new_log_content.split("\n")[:-1]))
 
         if all(msg in new_log_content for msg in ["[Pixelmon]", "has spawned in a", "biome!"]):
             # ping @everyone
