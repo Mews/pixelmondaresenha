@@ -13,7 +13,8 @@ LOG_REFRESH_RATE = 10 # seconds
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(message)s",
+    datefmt="%H:%M:%S",
     handlers=[
         logging.FileHandler("bot.log", encoding="utf-8", mode="w"),
     ]
@@ -49,7 +50,6 @@ async def loop():
     prev_log_content = get_log_content(driver)
     while not client.is_closed():
         log_content = get_log_content(driver)
-        from pprint import pprint
         new_log_content = log_content.replace(prev_log_content, "")
 
         if new_log_content:
