@@ -60,7 +60,10 @@ async def loop():
             line = reduce(lambda p, line: line if all(msg in line for msg in ["[Pixelmon]", "has spawned in a", "biome!"]) else "",
                           new_log_content.split("\n"), 
                           "")
-            await c.send(f"{line}\n@everyone", allowed_mentions=mention_everyone)
+            # send legendary that spawned
+            await c.send(f"@everyone\n{line}", allowed_mentions=mention_everyone)
+            # send coordinates of legendary
+            await c.send(f"{new_log_content.split("\n")[new_log_content.index(line)+1]}")
 
         prev_log_content = log_content
 
