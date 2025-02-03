@@ -57,7 +57,7 @@ async def loop():
 
         if all(msg in new_log_content for msg in ["[Pixelmon]", "has spawned in a", "biome!"]):
             # ping @everyone
-            line = reduce(lambda p, line: line if all(msg in line for msg in ["[Pixelmon]", "has spawned in a", "biome!"]) else "",
+            line = reduce(lambda p, line: line if all(msg in line for msg in ["[Pixelmon]", "has spawned in a", "biome!"]) else p,
                           new_log_content.split("\n"), 
                           "")
             # send legendary that spawned
