@@ -60,7 +60,7 @@ async def loop():
             line = reduce(lambda p, line: line if all(msg in line for msg in ["[Pixelmon]", "has spawned in a", "biome!"]) else "",
                           new_log_content.split("\n"), 
                           "")
-            c.send(f"{line}\n@everyone", allowed_mentions=mention_everyone)
+            await c.send(f"{line}\n@everyone", allowed_mentions=mention_everyone)
 
         prev_log_content = log_content
 
