@@ -35,7 +35,16 @@ mention_everyone = discord.AllowedMentions(everyone=True)
 
 
 def get_message_channel():
-    return client.get_channel(1335723656067940422)
+    try:
+        channel_id = int(os.environ["DISCORD_CHANNEL_ID"])
+        
+        return client.get_channel(channel_id)
+    
+    except ValueError:
+        logging.ERROR("Found invalid discord channel id")
+
+        raise ValueError("Invalid DISCORD_CHANNEL_ID")
+
 
 
 @client.event
