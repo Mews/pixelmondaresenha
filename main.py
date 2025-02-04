@@ -6,10 +6,16 @@ from aternos import *
 import asyncio
 from functools import reduce
 import re
+from datetime import datetime
+import os
 
 load_dotenv()
 BOT_TOKEN = str(os.environ["BOT_TOKEN"])
 LOG_REFRESH_RATE = 10 # seconds
+
+if not os.path.exists("logs"):
+    logging.info("No logs folder was found, creating it")
+    os.makedirs("logs")
 
 # Set up logging
 logging.basicConfig(
@@ -17,7 +23,7 @@ logging.basicConfig(
     format="%(asctime)s - %(message)s",
     datefmt="%H:%M:%S",
     handlers=[
-        logging.FileHandler("bot.log", encoding="utf-8", mode="w"),
+        logging.FileHandler(f"logs/{datetime.now().strftime("%H-%M %d-%m-%Y")}.log", encoding="utf-8", mode="w"),
     ]
 )
 
