@@ -38,7 +38,11 @@ def get_message_channel():
     try:
         channel_id = int(os.environ["DISCORD_CHANNEL_ID"])
         
-        return client.get_channel(channel_id)
+        channel = client.get_channel(channel_id)
+
+        logging.info(f"Loaded output channel {channel.name} with id {channel.id}")
+
+        return channel
     
     except ValueError:
         logging.ERROR("Found invalid discord channel id")
