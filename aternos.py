@@ -4,14 +4,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
+from seleniumbase import Driver as sbDriver
 from time import sleep as wait
+import logging
 
 load_dotenv()
 ATERNOS_USER = os.environ["ATERNOS_USERNAME"]
 ATERNOS_PASS = os.environ["ATERNOS_PASSWORD"]
 
 def create_driver():
-    return uc.Chrome(use_subprocess=True)
+    try:
+        return uc.Chrome(use_subprocess=True)
+    except:
+        logging.info("Couldn't use the chrome driver from undetected_chromedriver, using the one from seleniumbase instead")
+        return sbDriver(uc=True)
 
 def open_server_log(driver:uc.Chrome):
     driver.get("https://aternos.org/log/")
