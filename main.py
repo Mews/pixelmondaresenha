@@ -5,6 +5,7 @@ import logging
 from aternos import *
 import asyncio
 from functools import reduce
+import re
 
 load_dotenv()
 BOT_TOKEN = str(os.environ["BOT_TOKEN"])
@@ -57,13 +58,16 @@ async def loop():
 
         if all(msg in new_log_content for msg in ["[Pixelmon]", "has spawned in a", "biome!"]):
             # ping @everyone
-            line = reduce(lambda p, line: line if all(msg in line for msg in ["[Pixelmon]", "has spawned in a", "biome!"]) else p,
-                          new_log_content.split("\n"), 
-                          "")
-            # send legendary that spawned
-            await c.send(f"@everyone\n{line}", allowed_mentions=mention_everyone)
-            # send coordinates of legendary
-            await c.send(f"{new_log_content.split("\n")[new_log_content.index(line)+1]}")
+            spawn_regex = re.compile( r"\[Pixelmon\] ((.+) has spawned in a (.+) biome)" )
+            coords_regex = re.compile( r"Spawned (.+) at: (.*)" )
+
+            spawn_message = spawn_regex.search(new_log_content).group(1)
+            coords_message = coords_regex.search(new_log_content).group(0)
+
+            # mention @everyone
+            await c.send(f"@everyone", allowed_mentions=mention_everyone)
+            # send legendary spawn message and coords
+            await c.send(f"{spawn_message}\n{coords_message}")
 
         prev_log_content = log_content
 
